@@ -4,10 +4,10 @@ import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 export default function LibraryActions() {
-  const supabase = createClient()
   const router = useRouter()
 
   async function handleSignOut() {
+    const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/login')
   }

@@ -58,7 +58,6 @@ export default function ItemViewClient({ item }: { item: HtmlItem }) {
   const [editingName, setEditingName] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
@@ -73,6 +72,7 @@ export default function ItemViewClient({ item }: { item: HtmlItem }) {
 
   async function persistState(state: Record<string, unknown>) {
     setSaveStatus('saving')
+    const supabase = createClient()
     await supabase
       .from('html_items')
       .update({ dom_state: state, updated_at: new Date().toISOString() })
@@ -98,6 +98,7 @@ export default function ItemViewClient({ item }: { item: HtmlItem }) {
   async function handleRenameSave() {
     setEditingName(false)
     if (name.trim() === item.name) return
+    const supabase = createClient()
     await supabase
       .from('html_items')
       .update({ name: name.trim() || 'Untitled', updated_at: new Date().toISOString() })
@@ -116,6 +117,7 @@ export default function ItemViewClient({ item }: { item: HtmlItem }) {
 
   async function handleDelete() {
     if (!confirm(`Delete "${name}"? This cannot be undone.`)) return
+    const supabase = createClient()
     await supabase.from('html_items').delete().eq('id', item.id)
     router.push('/library')
   }

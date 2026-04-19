@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -11,7 +13,6 @@ export default function NewItemPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-  const supabase = createClient()
 
   async function handleSave() {
     if (!html.trim()) {
@@ -21,6 +22,7 @@ export default function NewItemPage() {
     setSaving(true)
     setError('')
 
+    const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       router.push('/login')
