@@ -12,9 +12,14 @@ export async function createServerSupabaseClient() {
           return cookieStore.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // Called from a Server Component — cookie writes are ignored here.
+            // Session refresh happens via Route Handlers instead.
+          }
         },
       },
     }
