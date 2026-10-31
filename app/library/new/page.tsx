@@ -1,10 +1,5 @@
-import { redirect } from 'next/navigation'
-import { createServerSupabaseClient } from '@/lib/supabase-server'
 import NewItemClient from './new-item-client'
 
-export default async function NewItemPage() {
-  const supabase = await createServerSupabaseClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+export default function NewItemPage() {
   return <NewItemClient />
 }

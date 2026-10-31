@@ -1,14 +1,9 @@
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { HtmlItem } from '@/lib/types'
-import LibraryActions from './library-actions'
 
 export default async function LibraryPage() {
   const supabase = await createServerSupabaseClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) redirect('/login')
 
   const { data: items } = await supabase
     .from('html_items')
@@ -26,7 +21,6 @@ export default async function LibraryPage() {
           >
             + Add New
           </Link>
-          <LibraryActions />
         </div>
       </header>
 

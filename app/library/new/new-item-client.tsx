@@ -21,16 +21,9 @@ export default function NewItemClient() {
     setError('')
 
     const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      router.push('/login')
-      return
-    }
-
     const { data, error: insertError } = await supabase
       .from('html_items')
       .insert({
-        user_id: user.id,
         name: name.trim() || 'Untitled',
         html_content: html.trim(),
         dom_state: {},

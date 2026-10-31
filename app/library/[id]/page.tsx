@@ -7,14 +7,10 @@ export default async function ItemViewPage({ params }: { params: Promise<{ id: s
   const { id } = await params
   const supabase = await createServerSupabaseClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
   const { data: item } = await supabase
     .from('html_items')
     .select('*')
     .eq('id', id)
-    .eq('user_id', user.id)
     .single()
 
   if (!item) redirect('/library')
